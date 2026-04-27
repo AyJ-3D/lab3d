@@ -319,8 +319,9 @@ const FIREBASE = {
   appId: "1:683028999015:web:1ea776a9c9f71eb523ddc2"
 };
 
+// URL correcta de Gemini 2.0 Flash (gratuito)
 const GEMINI_KEY = "AIzaSyCgI7oqPSAD4rCykfzD1fZdFd71OhgD_HE";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
 
 const fbApp = initializeApp(FIREBASE);
 const db    = getDatabase(fbApp);
@@ -362,7 +363,7 @@ window.analizarMensaje = async function() {
 
 Mensaje: "${msg}"
 
-Respondé ÚNICAMENTE con JSON válido, sin markdown, sin texto extra. Si no podés determinar un valor dejá cadena vacía "":
+Respondé ÚNICAMENTE con JSON válido, sin markdown, sin bloques de código, sin texto extra antes o después. Si no podés determinar un valor dejá cadena vacía "":
 
 {
   "cliente": "nombre o apodo del cliente, vacío si no aparece",
@@ -372,7 +373,7 @@ Respondé ÚNICAMENTE con JSON válido, sin markdown, sin texto extra. Si no pod
   "cantidad": "cantidad de piezas si la menciona, vacío si no",
   "tiempo": "tiempo o fecha límite si lo menciona, vacío si no",
   "notas": "detalles técnicos importantes: medidas, acabado, urgencia, referencias",
-  "prioridad": "alta o media o baja — inferí según urgencia del mensaje, por defecto media"
+  "prioridad": "alta o media o baja — inferí según urgencia, por defecto media"
 }`;
 
   try {
@@ -385,11 +386,15 @@ Respondé ÚNICAMENTE con JSON válido, sin markdown, sin texto extra. Si no pod
       })
     });
 
-    if (!res.ok) throw new Error('Error Gemini: ' + res.status);
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData?.error?.message || 'Error ' + res.status);
+    }
 
     const data = await res.json();
     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-    raw = raw.replace(/```json|```/g, '').trim();
+    // limpiar cualquier markdown que el modelo agregue
+    raw = raw.replace(/```json/g,'').replace(/```/g,'').trim();
     const d = JSON.parse(raw);
 
     fillField('f-cliente',  d.cliente,     'badge-cliente');
@@ -422,8 +427,9 @@ Respondé ÚNICAMENTE con JSON válido, sin markdown, sin texto extra. Si no pod
     toast('✓ Campos completados — editá lo que necesites');
 
   } catch(e) {
+    console.error('Gemini error:', e);
     document.getElementById('form-section').style.display = 'block';
-    toast('IA no disponible — completá los campos manualmente', true);
+    toast('Error IA: ' + e.message + ' — completá los campos manualmente', true);
   }
 
   btn.disabled = false;
