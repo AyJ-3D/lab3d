@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Lab 3D — Cargar Pedido</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
 :root {
   --bg: #0c0c0c;
@@ -34,8 +34,8 @@ header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -47,10 +47,10 @@ header {
   font-size: 22px; flex-shrink: 0;
 }
 
-header h1 { font-size: 19px; font-weight: 700; line-height: 1.2; }
+header h1 { font-size: 19px; font-weight: 700; }
 header p  { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-.step {
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -58,7 +58,7 @@ header p  { font-size: 12px; color: var(--muted); margin-top: 2px; }
   margin-bottom: 14px;
 }
 
-.step-title {
+.card-title {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .12em;
@@ -70,13 +70,13 @@ header p  { font-size: 12px; color: var(--muted); margin-top: 2px; }
   gap: 8px;
 }
 
-.step-title span {
+.card-title .num {
   background: var(--accent);
   color: #fff;
   width: 20px; height: 20px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700;
+  font-size: 11px;
 }
 
 textarea, input, select {
@@ -87,7 +87,7 @@ textarea, input, select {
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  padding: 13px 14px;
+  padding: 12px 14px;
   outline: none;
   transition: border-color .2s;
   -webkit-appearance: none;
@@ -95,7 +95,32 @@ textarea, input, select {
 }
 textarea { resize: none; height: 110px; line-height: 1.5; }
 textarea::placeholder, input::placeholder { color: var(--muted); }
-textarea:focus, input:focus { border-color: var(--accent); }
+textarea:focus, input:focus, select:focus { border-color: var(--accent); }
+input.ai-filled, textarea.ai-filled, select.ai-filled {
+  border-color: #1a3a2a;
+  background: #0a110d;
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 7px;
+  margin-top: 14px;
+}
+.field-label:first-of-type { margin-top: 0; }
+
+.ai-badge {
+  font-size: 10px;
+  color: #2a7a4a;
+  background: #0a1a10;
+  border: 1px solid #1a3a2a;
+  border-radius: 10px;
+  padding: 2px 7px;
+  display: none;
+}
 
 .btn-ai {
   width: 100%;
@@ -110,45 +135,15 @@ textarea:focus, input:focus { border-color: var(--accent); }
   font-weight: 700;
   cursor: pointer;
   transition: opacity .2s;
-  letter-spacing: .02em;
 }
 .btn-ai:disabled { opacity: .45; cursor: not-allowed; }
 
-.parsed-result {
-  margin-top: 14px;
-  background: #0a0a0a;
-  border: 1px solid #1a3a2a;
-  border-radius: 10px;
-  padding: 14px;
-  display: none;
-}
-.parsed-result.show { display: block; }
-
-.pr-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 8px;
-  font-size: 14px;
-  line-height: 1.4;
-}
-.pr-row:last-child { margin-bottom: 0; }
-.pr-key { color: var(--muted); flex-shrink: 0; min-width: 80px; }
-.pr-val { color: var(--text); font-weight: 500; }
-
-.field-label {
-  display: block;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 8px;
-  margin-top: 16px;
-  letter-spacing: .04em;
-}
-.field-label:first-child { margin-top: 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .prio-row { display: flex; gap: 8px; }
 .prio-btn {
   flex: 1;
-  padding: 13px 4px;
+  padding: 12px 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: #0a0a0a;
@@ -159,7 +154,7 @@ textarea:focus, input:focus { border-color: var(--accent); }
   cursor: pointer;
   transition: all .15s;
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 .prio-btn.sel-alta   { border-color: var(--red);    background: #1a0808; color: #e74c3c; }
 .prio-btn.sel-media  { border-color: var(--yellow);  background: #1a1500; color: #f39c12; }
@@ -167,7 +162,7 @@ textarea:focus, input:focus { border-color: var(--accent); }
 
 .btn-save {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 6px;
   padding: 17px;
   background: var(--green);
   border: none;
@@ -178,10 +173,7 @@ textarea:focus, input:focus { border-color: var(--accent); }
   font-weight: 700;
   cursor: pointer;
   transition: opacity .2s;
-  display: none;
-  letter-spacing: .02em;
 }
-.btn-save.show { display: block; }
 .btn-save:disabled { opacity: .45; cursor: not-allowed; }
 
 .toast {
@@ -199,10 +191,10 @@ textarea:focus, input:focus { border-color: var(--accent); }
   pointer-events: none;
   z-index: 999;
   white-space: nowrap;
-  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.err { background: var(--red); }
+.toast.err  { background: var(--red); }
 
 .spin {
   display: inline-block;
@@ -216,7 +208,8 @@ textarea:focus, input:focus { border-color: var(--accent); }
 }
 @keyframes sp { to { transform: rotate(360deg); } }
 
-#step2 { display: none; }
+#form-section { display: none; }
+select option { background: #1a1a1a; }
 </style>
 </head>
 <body>
@@ -229,38 +222,86 @@ textarea:focus, input:focus { border-color: var(--accent); }
   </div>
 </header>
 
-<!-- PASO 1 -->
-<div class="step">
-  <div class="step-title"><span>1</span> Pegá el mensaje del cliente</div>
+<div class="card">
+  <div class="card-title"><span class="num">1</span> Pegá el mensaje del cliente</div>
   <textarea id="mensaje" placeholder="Pegá acá el mensaje de WhatsApp o Instagram tal cual lo recibiste..."></textarea>
   <button class="btn-ai" id="btn-ai" onclick="analizarMensaje()">✨ Analizar con IA</button>
-  <div class="parsed-result" id="parsed-result">
-    <div class="pr-row"><span class="pr-key">Cliente</span><span class="pr-val" id="p-cliente">—</span></div>
-    <div class="pr-row"><span class="pr-key">Trabajo</span><span class="pr-val" id="p-desc">—</span></div>
-    <div class="pr-row"><span class="pr-key">Material</span><span class="pr-val" id="p-mat">—</span></div>
-    <div class="pr-row"><span class="pr-key">Notas</span><span class="pr-val" id="p-notas">—</span></div>
-  </div>
 </div>
 
-<!-- PASO 2 -->
-<div class="step" id="step2">
-  <div class="step-title"><span>2</span> Completá los detalles</div>
+<div id="form-section">
+  <div class="card">
+    <div class="card-title"><span class="num">2</span> Revisá y editá los datos</div>
 
-  <label class="field-label">Color del filamento</label>
-  <input type="text" id="color" placeholder="ej: Negro, Blanco, Gris...">
+    <label class="field-label">
+      Cliente / Nombre
+      <span class="ai-badge" id="badge-cliente">✓ IA</span>
+    </label>
+    <input type="text" id="f-cliente" placeholder="Nombre del cliente">
 
-  <label class="field-label">Tiempo estimado</label>
-  <input type="text" id="tiempo" placeholder="ej: 2 horas, 1 día...">
+    <label class="field-label">
+      Descripción del trabajo
+      <span class="ai-badge" id="badge-desc">✓ IA</span>
+    </label>
+    <textarea id="f-desc" style="height:80px" placeholder="Qué hay que imprimir"></textarea>
 
-  <label class="field-label">Prioridad</label>
-  <div class="prio-row">
-    <button class="prio-btn" id="prio-alta"  onclick="setPrio('alta')">🔴<br>Alta</button>
-    <button class="prio-btn" id="prio-media" onclick="setPrio('media')">🟡<br>Media</button>
-    <button class="prio-btn" id="prio-baja"  onclick="setPrio('baja')">🟢<br>Baja</button>
+    <div class="two-col" style="margin-top:14px">
+      <div>
+        <label class="field-label">
+          Material
+          <span class="ai-badge" id="badge-mat">✓ IA</span>
+        </label>
+        <select id="f-material">
+          <option value="PLA">PLA</option>
+          <option value="PETG">PETG</option>
+          <option value="ABS">ABS</option>
+          <option value="TPU">TPU</option>
+          <option value="ASA">ASA</option>
+          <option value="Resina">Resina</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">
+          Color
+          <span class="ai-badge" id="badge-color">✓ IA</span>
+        </label>
+        <input type="text" id="f-color" placeholder="ej: Negro...">
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:14px">
+      <div>
+        <label class="field-label">
+          Cantidad
+          <span class="ai-badge" id="badge-cant">✓ IA</span>
+        </label>
+        <input type="text" id="f-cantidad" placeholder="ej: 1, 4 piezas...">
+      </div>
+      <div>
+        <label class="field-label">
+          Tiempo estimado
+          <span class="ai-badge" id="badge-tiempo">✓ IA</span>
+        </label>
+        <input type="text" id="f-tiempo" placeholder="ej: 2 horas...">
+      </div>
+    </div>
+
+    <label class="field-label" style="margin-top:14px">
+      Notas adicionales
+      <span class="ai-badge" id="badge-notas">✓ IA</span>
+    </label>
+    <input type="text" id="f-notas" placeholder="Medidas, tolerancias, urgencia, etc.">
+
+    <label class="field-label" style="margin-top:14px">Prioridad</label>
+    <div class="prio-row">
+      <button class="prio-btn" id="prio-alta"  onclick="setPrio('alta')">🔴<br>Alta</button>
+      <button class="prio-btn" id="prio-media" onclick="setPrio('media')">🟡<br>Media</button>
+      <button class="prio-btn" id="prio-baja"  onclick="setPrio('baja')">🟢<br>Baja</button>
+    </div>
   </div>
-</div>
 
-<button class="btn-save" id="btn-save" onclick="guardarTarea()">✅ Guardar pedido</button>
+  <button class="btn-save" id="btn-save" onclick="guardarTarea()">✅ Guardar pedido</button>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -284,14 +325,13 @@ const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemi
 const fbApp = initializeApp(FIREBASE);
 const db    = getDatabase(fbApp);
 
-let datosParsed = {};
-let prioSel     = '';
+let prioSel = 'media';
 
 function toast(msg, err=false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast show' + (err ? ' err' : '');
-  setTimeout(() => t.className = 'toast', 3000);
+  setTimeout(() => t.className = 'toast', 3500);
 }
 
 window.setPrio = function(p) {
@@ -299,8 +339,16 @@ window.setPrio = function(p) {
   ['alta','media','baja'].forEach(x => {
     document.getElementById('prio-'+x).className = 'prio-btn' + (x===p ? ' sel-'+x : '');
   });
-  document.getElementById('btn-save').classList.add('show');
 };
+setPrio('media');
+
+function fillField(id, value, badgeId) {
+  if (!value || value.trim() === '' || value === '—') return;
+  const el = document.getElementById(id);
+  el.value = value;
+  el.classList.add('ai-filled');
+  if (badgeId) document.getElementById(badgeId).style.display = 'inline';
+}
 
 window.analizarMensaje = async function() {
   const msg = document.getElementById('mensaje').value.trim();
@@ -310,16 +358,21 @@ window.analizarMensaje = async function() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spin"></span>Analizando...';
 
-  const prompt = `Sos un asistente de un laboratorio de impresión 3D. Analizá este mensaje de un cliente y extraé la información.
+  const prompt = `Sos un asistente de un laboratorio de impresión 3D en Argentina. Analizá este mensaje de un cliente y extraé toda la información posible.
 
 Mensaje: "${msg}"
 
-Respondé ÚNICAMENTE con un objeto JSON válido, sin markdown, sin explicaciones:
+Respondé ÚNICAMENTE con JSON válido, sin markdown, sin texto extra. Si no podés determinar un valor dejá cadena vacía "":
+
 {
-  "cliente": "nombre del cliente o Desconocido si no aparece",
-  "descripcion": "qué quiere imprimir, descripción clara y concisa en español",
-  "material": "material mencionado o PLA si no menciona",
-  "notas": "cualquier detalle adicional como medidas, cantidad, urgencia, o vacío si no hay"
+  "cliente": "nombre o apodo del cliente, vacío si no aparece",
+  "descripcion": "descripción clara y detallada de qué hay que imprimir, en español",
+  "material": "PLA o PETG o ABS o TPU o ASA o Resina o Otro — por defecto PLA",
+  "color": "color del filamento si lo menciona, vacío si no",
+  "cantidad": "cantidad de piezas si la menciona, vacío si no",
+  "tiempo": "tiempo o fecha límite si lo menciona, vacío si no",
+  "notas": "detalles técnicos importantes: medidas, acabado, urgencia, referencias",
+  "prioridad": "alta o media o baja — inferí según urgencia del mensaje, por defecto media"
 }`;
 
   try {
@@ -328,34 +381,49 @@ Respondé ÚNICAMENTE con un objeto JSON válido, sin markdown, sin explicacione
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.1, maxOutputTokens: 300 }
+        generationConfig: { temperature: 0.1, maxOutputTokens: 500 }
       })
     });
+
+    if (!res.ok) throw new Error('Error Gemini: ' + res.status);
 
     const data = await res.json();
     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     raw = raw.replace(/```json|```/g, '').trim();
-    datosParsed = JSON.parse(raw);
+    const d = JSON.parse(raw);
 
-    document.getElementById('p-cliente').textContent = datosParsed.cliente || '—';
-    document.getElementById('p-desc').textContent    = datosParsed.descripcion || '—';
-    document.getElementById('p-mat').textContent     = datosParsed.material || '—';
-    document.getElementById('p-notas').textContent   = datosParsed.notas || '—';
+    fillField('f-cliente',  d.cliente,     'badge-cliente');
+    fillField('f-desc',     d.descripcion, 'badge-desc');
+    fillField('f-color',    d.color,       'badge-color');
+    fillField('f-cantidad', d.cantidad,    'badge-cant');
+    fillField('f-tiempo',   d.tiempo,      'badge-tiempo');
+    fillField('f-notas',    d.notas,       'badge-notas');
 
-    document.getElementById('parsed-result').classList.add('show');
-    document.getElementById('step2').style.display = 'block';
-    document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (d.material) {
+      const sel = document.getElementById('f-material');
+      const match = Array.from(sel.options).find(o =>
+        o.value.toLowerCase() === d.material.toLowerCase()
+      );
+      if (match) {
+        sel.value = match.value;
+        sel.classList.add('ai-filled');
+        document.getElementById('badge-mat').style.display = 'inline';
+      }
+    }
+
+    if (d.prioridad && ['alta','media','baja'].includes(d.prioridad)) {
+      setPrio(d.prioridad);
+    }
+
+    document.getElementById('form-section').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+    toast('✓ Campos completados — editá lo que necesites');
 
   } catch(e) {
-    toast('Error al analizar: ' + e.message, true);
-    // fallback: usar el mensaje crudo
-    datosParsed = { cliente: 'Desconocido', descripcion: msg, material: 'PLA', notas: '' };
-    document.getElementById('p-cliente').textContent = 'Desconocido';
-    document.getElementById('p-desc').textContent    = msg.slice(0, 100);
-    document.getElementById('p-mat').textContent     = 'PLA';
-    document.getElementById('p-notas').textContent   = '—';
-    document.getElementById('parsed-result').classList.add('show');
-    document.getElementById('step2').style.display = 'block';
+    document.getElementById('form-section').style.display = 'block';
+    toast('IA no disponible — completá los campos manualmente', true);
   }
 
   btn.disabled = false;
@@ -363,41 +431,44 @@ Respondé ÚNICAMENTE con un objeto JSON válido, sin markdown, sin explicacione
 };
 
 window.guardarTarea = async function() {
-  if (!prioSel) { toast('Seleccioná una prioridad', true); return; }
-
-  const color  = document.getElementById('color').value.trim() || 'Sin especificar';
-  const tiempo = document.getElementById('tiempo').value.trim() || 'Sin especificar';
+  const desc = document.getElementById('f-desc').value.trim();
+  if (!desc) { toast('Completá la descripción del trabajo', true); return; }
 
   const btn = document.getElementById('btn-save');
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
   const tarea = {
-    cliente:     datosParsed.cliente     || 'Desconocido',
-    descripcion: datosParsed.descripcion || '',
-    material:    datosParsed.material    || 'PLA',
-    notas:       datosParsed.notas       || '',
-    color,
-    tiempo,
+    cliente:     document.getElementById('f-cliente').value.trim()  || 'Sin nombre',
+    descripcion: desc,
+    material:    document.getElementById('f-material').value,
+    color:       document.getElementById('f-color').value.trim()    || 'Sin especificar',
+    cantidad:    document.getElementById('f-cantidad').value.trim() || '1',
+    tiempo:      document.getElementById('f-tiempo').value.trim()   || 'Sin especificar',
+    notas:       document.getElementById('f-notas').value.trim()    || '',
     prioridad:   prioSel,
     estado:      'pendiente',
-    creado:      new Date().toLocaleString('es-AR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }),
-    ts:          serverTimestamp()
+    creado:      new Date().toLocaleString('es-AR', {
+      day:'2-digit', month:'2-digit', year:'numeric',
+      hour:'2-digit', minute:'2-digit'
+    }),
+    ts: serverTimestamp()
   };
 
   try {
     await push(ref(db, 'tareas'), tarea);
     toast('✅ Pedido guardado en el laboratorio');
     setTimeout(() => {
-      document.getElementById('mensaje').value = '';
-      document.getElementById('color').value   = '';
-      document.getElementById('tiempo').value  = '';
-      document.getElementById('parsed-result').classList.remove('show');
-      document.getElementById('step2').style.display = 'none';
-      document.getElementById('btn-save').classList.remove('show');
+      ['mensaje','f-cliente','f-desc','f-color','f-cantidad','f-tiempo','f-notas'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('f-material').value = 'PLA';
+      document.getElementById('form-section').style.display = 'none';
       document.getElementById('btn-ai').innerHTML = '✨ Analizar con IA';
-      datosParsed = {}; prioSel = '';
-      ['alta','media','baja'].forEach(x => document.getElementById('prio-'+x).className='prio-btn');
+      document.querySelectorAll('.ai-filled').forEach(el => el.classList.remove('ai-filled'));
+      document.querySelectorAll('.ai-badge').forEach(el => el.style.display = 'none');
+      setPrio('media');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 2000);
   } catch(e) {
     toast('Error al guardar: ' + e.message, true);
