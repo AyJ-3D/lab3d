@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab 3D — Panel</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
   --bg: #080808;
@@ -32,45 +32,37 @@ body {
   flex-direction: column;
 }
 
-/* HEADER */
+/* TOP BAR */
 #top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 32px;
+  padding: 14px 28px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
-.top-left { display: flex; align-items: center; gap: 14px; }
-
+.top-left { display: flex; align-items: center; gap: 12px; }
 .logo-big {
-  width: 48px; height: 48px;
+  width: 44px; height: 44px;
   background: linear-gradient(135deg, var(--accent), #ffb347);
-  border-radius: 14px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
+  font-size: 22px;
 }
+#top-bar h1 { font-size: 20px; font-weight: 700; }
+#top-bar .sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
 
-#top-bar h1 { font-size: 22px; font-weight: 700; }
-#top-bar .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
-
-.top-right { display: flex; align-items: center; gap: 20px; }
-
+.top-right { display: flex; align-items: center; gap: 24px; }
 #clock {
   font-family: 'DM Mono', monospace;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 500;
-  color: var(--text);
   letter-spacing: .04em;
 }
+#date-str { font-size: 12px; color: var(--muted); text-align: right; margin-top: 1px; }
 
-#date-str { font-size: 13px; color: var(--muted); text-align: right; margin-top: 2px; }
-
-.live-dot {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 12px; color: var(--muted);
-}
+.live-dot { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
 .dot-pulse {
   width: 8px; height: 8px;
   background: var(--green);
@@ -82,7 +74,7 @@ body {
   50%      { opacity:.8; box-shadow: 0 0 0 6px rgba(39,174,96,0); }
 }
 
-/* STATS BAR */
+/* STATS */
 #stats-bar {
   display: flex;
   gap: 1px;
@@ -90,24 +82,20 @@ body {
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
-
 .stat-box {
   flex: 1;
   background: var(--bg);
-  padding: 12px 24px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
-
-.stat-icon { font-size: 20px; }
-.stat-num  { font-size: 26px; font-weight: 700; line-height: 1; }
-.stat-lbl  { font-size: 11px; color: var(--muted); margin-top: 2px; letter-spacing: .06em; text-transform: uppercase; }
-
-.stat-box.pendiente .stat-num { color: var(--yellow); }
-.stat-box.proceso   .stat-num { color: var(--blue); }
-.stat-box.listo     .stat-num { color: var(--green); }
-.stat-box.total     .stat-num { color: var(--text); }
+.stat-icon { font-size: 18px; }
+.stat-num  { font-size: 24px; font-weight: 800; line-height: 1; }
+.stat-lbl  { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: .06em; text-transform: uppercase; }
+.stat-box.pend .stat-num { color: var(--yellow); }
+.stat-box.proc .stat-num { color: var(--blue); }
+.stat-box.list .stat-num { color: var(--green); }
 
 /* COLUMNS */
 #columns {
@@ -127,128 +115,109 @@ body {
 }
 
 .col-header {
-  padding: 14px 20px;
+  padding: 12px 18px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   flex-shrink: 0;
 }
-
-.col-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.col-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .col-dot.pendiente { background: var(--yellow); }
 .col-dot.proceso   { background: var(--blue); }
 .col-dot.listo     { background: var(--green); }
-
-.col-title { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.col-title { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .col-count { margin-left: auto; font-size: 12px; color: var(--muted); }
 
 .col-body {
   flex: 1;
   overflow-y: auto;
-  padding: 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
-.col-body::-webkit-scrollbar { width: 4px; }
-.col-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.col-body::-webkit-scrollbar { width: 3px; }
+.col-body::-webkit-scrollbar-thumb { background: var(--border); }
 
 /* TASK CARD */
 .task-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 14px 16px;
-  animation: fadeIn .3s ease;
-  cursor: pointer;
-  transition: border-color .2s, transform .15s;
+  padding: 14px 16px 14px 20px;
   position: relative;
+  animation: fadeIn .25s ease;
+  transition: border-color .15s;
 }
-.task-card:hover { border-color: #333; transform: translateY(-1px); }
+.task-card:hover { border-color: #2a2a2a; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
 
-@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-
-.task-prio {
+/* Barra de prioridad lateral */
+.prio-bar {
   position: absolute;
-  top: 0; left: 0;
-  width: 4px;
-  height: 100%;
+  left: 0; top: 0;
+  width: 5px; height: 100%;
   border-radius: 12px 0 0 12px;
 }
-.task-prio.alta  { background: var(--red); }
-.task-prio.media { background: var(--yellow); }
-.task-prio.baja  { background: var(--green); }
+.prio-bar.alta  { background: var(--red); }
+.prio-bar.media { background: var(--yellow); }
+.prio-bar.baja  { background: var(--green); }
 
-.task-inner { padding-left: 10px; }
-
-.task-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-
-.task-cliente {
-  font-size: 14px;
+/* DESCRIPCION — protagonista */
+.task-desc {
+  font-size: 17px;
   font-weight: 700;
   color: var(--text);
-  line-height: 1.3;
+  line-height: 1.35;
+  margin-bottom: 8px;
 }
 
-.task-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 20px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.badge-alta  { background: rgba(192,57,45,.2);  color: #e74c3c; border: 1px solid rgba(192,57,45,.3); }
-.badge-media { background: rgba(243,156,18,.15); color: #f39c12; border: 1px solid rgba(243,156,18,.3); }
-.badge-baja  { background: rgba(39,174,96,.15);  color: #27ae60; border: 1px solid rgba(39,174,96,.3); }
-
-.task-desc {
-  font-size: 13px;
-  color: #aaa;
-  line-height: 1.45;
+/* CLIENTE — secundario, pequeño */
+.task-cliente {
+  font-size: 12px;
+  color: var(--muted);
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .task-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
-.meta-chip {
+.chip {
   font-size: 11px;
-  color: var(--muted);
+  color: #888;
   background: #161616;
-  border: 1px solid var(--border);
+  border: 1px solid #1e1e1e;
   border-radius: 6px;
   padding: 3px 8px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+}
+.chip.prio-alta  { color: #e74c3c; background: rgba(192,57,45,.1);  border-color: rgba(192,57,45,.2); }
+.chip.prio-media { color: #f39c12; background: rgba(243,156,18,.1); border-color: rgba(243,156,18,.2); }
+.chip.prio-baja  { color: #27ae60; background: rgba(39,174,96,.1);  border-color: rgba(39,174,96,.2); }
+
+.task-notas {
+  font-size: 12px;
+  color: #3a5a4a;
+  font-style: italic;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  border-left: 2px solid #1a3a2a;
+  padding-left: 8px;
 }
 
 .task-actions {
   display: flex;
   gap: 6px;
-  margin-top: 12px;
-  border-top: 1px solid var(--border);
   padding-top: 10px;
+  border-top: 1px solid var(--border);
 }
-
 .act-btn {
   flex: 1;
   padding: 7px 4px;
@@ -263,31 +232,20 @@ body {
   transition: all .15s;
   text-align: center;
 }
-.act-btn:hover { border-color: #444; color: var(--text); }
-.act-btn.proceso { border-color: var(--blue);  color: var(--blue);  background: rgba(41,128,185,.1); }
-.act-btn.listo   { border-color: var(--green); color: var(--green); background: rgba(39,174,96,.1); }
-.act-btn.del     { border-color: #333; color: #444; }
-.act-btn.del:hover { border-color: var(--red); color: var(--red); background: rgba(192,57,45,.1); }
+.act-btn:hover { border-color: #333; color: var(--text); }
+.act-btn.iniciar { border-color: var(--blue);  color: var(--blue);  background: rgba(41,128,185,.08); }
+.act-btn.listo   { border-color: var(--green); color: var(--green); background: rgba(39,174,96,.08); }
+.act-btn.del:hover { border-color: var(--red); color: var(--red); background: rgba(192,57,45,.08); }
 
 .empty-col {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1e1e1e;
-  font-size: 13px;
-  letter-spacing: .1em;
+  color: #1a1a1a;
+  font-size: 12px;
+  letter-spacing: .12em;
   text-transform: uppercase;
-}
-
-/* NOTAS tooltip */
-.task-notas {
-  font-size: 11px;
-  color: #3a5a4a;
-  font-style: italic;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  line-height: 1.4;
 }
 </style>
 </head>
@@ -302,10 +260,7 @@ body {
     </div>
   </div>
   <div class="top-right">
-    <div class="live-dot">
-      <div class="dot-pulse"></div>
-      En vivo
-    </div>
+    <div class="live-dot"><div class="dot-pulse"></div>En vivo</div>
     <div>
       <div id="clock">00:00:00</div>
       <div id="date-str">—</div>
@@ -314,21 +269,21 @@ body {
 </div>
 
 <div id="stats-bar">
-  <div class="stat-box pendiente">
+  <div class="stat-box pend">
     <div class="stat-icon">⏳</div>
     <div><div class="stat-num" id="cnt-pend">0</div><div class="stat-lbl">Pendientes</div></div>
   </div>
-  <div class="stat-box proceso">
+  <div class="stat-box proc">
     <div class="stat-icon">⚙️</div>
     <div><div class="stat-num" id="cnt-proc">0</div><div class="stat-lbl">En proceso</div></div>
   </div>
-  <div class="stat-box listo">
+  <div class="stat-box list">
     <div class="stat-icon">✅</div>
     <div><div class="stat-num" id="cnt-list">0</div><div class="stat-lbl">Listos</div></div>
   </div>
-  <div class="stat-box total">
+  <div class="stat-box">
     <div class="stat-icon">📋</div>
-    <div><div class="stat-num" id="cnt-tot">0</div><div class="stat-lbl">Total hoy</div></div>
+    <div><div class="stat-num" id="cnt-tot">0</div><div class="stat-lbl">Total</div></div>
   </div>
 </div>
 
@@ -360,7 +315,7 @@ body {
 </div>
 
 <script type="module">
-import { initializeApp }                          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const FIREBASE = {
@@ -376,7 +331,7 @@ const FIREBASE = {
 const fbApp = initializeApp(FIREBASE);
 const db    = getDatabase(fbApp);
 
-// ── RELOJ ──────────────────────────────────────────────────────────
+// RELOJ
 function updateClock() {
   const now = new Date();
   document.getElementById('clock').textContent =
@@ -387,66 +342,65 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// ── RENDER ─────────────────────────────────────────────────────────
-function prioLabel(p) {
-  if (p === 'alta')  return '<span class="task-badge badge-alta">Alta</span>';
-  if (p === 'media') return '<span class="task-badge badge-media">Media</span>';
-  return '<span class="task-badge badge-baja">Baja</span>';
+function prioChip(p) {
+  const labels = { alta:'🔴 Alta', media:'🟡 Media', baja:'🟢 Baja' };
+  return `<span class="chip prio-${p}">${labels[p]||p}</span>`;
 }
 
 function renderCard(id, t) {
-  const notas = t.notas && t.notas !== '—' && t.notas !== ''
+  const notas = t.notas && t.notas.trim() !== '' && t.notas !== '—'
     ? `<div class="task-notas">📝 ${t.notas}</div>` : '';
+
+  const cantidad = t.cantidad && t.cantidad !== '1' && t.cantidad !== ''
+    ? `<span class="chip">✕${t.cantidad}</span>` : '';
 
   let actions = '';
   if (t.estado === 'pendiente') {
     actions = `
-      <button class="act-btn proceso" onclick="cambiarEstado('${id}','proceso')">▶ Iniciar</button>
-      <button class="act-btn del"     onclick="eliminarTarea('${id}')">✕</button>`;
+      <button class="act-btn iniciar" onclick="cambiarEstado('${id}','proceso')">▶ Iniciar</button>
+      <button class="act-btn del"     onclick="eliminar('${id}')">✕</button>`;
   } else if (t.estado === 'proceso') {
     actions = `
-      <button class="act-btn listo"   onclick="cambiarEstado('${id}','listo')">✓ Listo</button>
-      <button class="act-btn del"     onclick="eliminarTarea('${id}')">✕</button>`;
+      <button class="act-btn listo" onclick="cambiarEstado('${id}','listo')">✓ Listo</button>
+      <button class="act-btn del"   onclick="eliminar('${id}')">✕</button>`;
   } else {
-    actions = `
-      <button class="act-btn del"     onclick="eliminarTarea('${id}')">✕ Archivar</button>`;
+    actions = `<button class="act-btn del" onclick="eliminar('${id}')">✕ Archivar</button>`;
   }
 
   return `
     <div class="task-card" id="card-${id}">
-      <div class="task-prio ${t.prioridad || 'baja'}"></div>
-      <div class="task-inner">
-        <div class="task-top">
-          <div class="task-cliente">${t.cliente || 'Sin nombre'}</div>
-          ${prioLabel(t.prioridad)}
-        </div>
-        <div class="task-desc">${t.descripcion || '—'}</div>
-        ${notas}
-        <div class="task-meta">
-          <div class="meta-chip">🎨 ${t.color || '—'}</div>
-          <div class="meta-chip">🧱 ${t.material || 'PLA'}</div>
-          <div class="meta-chip">⏱ ${t.tiempo || '—'}</div>
-          <div class="meta-chip">📅 ${t.creado || '—'}</div>
-        </div>
-        <div class="task-actions">${actions}</div>
+      <div class="prio-bar ${t.prioridad||'baja'}"></div>
+
+      <div class="task-desc">${t.descripcion || 'Sin descripción'}</div>
+
+      <div class="task-cliente">👤 ${t.cliente || 'Sin nombre'} · 📅 ${t.creado || '—'}</div>
+
+      <div class="task-meta">
+        ${prioChip(t.prioridad||'baja')}
+        <span class="chip">🧱 ${t.material||'PLA'}</span>
+        <span class="chip">🎨 ${t.color||'—'}</span>
+        ${cantidad}
+        <span class="chip">⏱ ${t.tiempo||'—'}</span>
       </div>
+
+      ${notas}
+
+      <div class="task-actions">${actions}</div>
     </div>`;
 }
 
-window.cambiarEstado = function(id, nuevoEstado) {
-  update(ref(db, 'tareas/' + id), { estado: nuevoEstado });
+window.cambiarEstado = function(id, estado) {
+  update(ref(db, 'tareas/' + id), { estado });
 };
 
-window.eliminarTarea = function(id) {
-  if (confirm('¿Archivar esta tarea?')) {
-    remove(ref(db, 'tareas/' + id));
-  }
+window.eliminar = function(id) {
+  if (confirm('¿Archivar esta tarea?')) remove(ref(db, 'tareas/' + id));
 };
 
-// ── ESCUCHAR FIREBASE EN TIEMPO REAL ──────────────────────────────
-onValue(ref(db, 'tareas'), (snapshot) => {
-  const data = snapshot.val() || {};
+const prioOrder = { alta: 0, media: 1, baja: 2 };
 
+onValue(ref(db, 'tareas'), (snap) => {
+  const data = snap.val() || {};
   const cols = { pendiente: [], proceso: [], listo: [] };
 
   Object.entries(data).forEach(([id, t]) => {
@@ -454,32 +408,22 @@ onValue(ref(db, 'tareas'), (snapshot) => {
     if (cols[estado]) cols[estado].push({ id, ...t });
   });
 
-  // Ordenar por prioridad: alta > media > baja
-  const prioOrder = { alta: 0, media: 1, baja: 2 };
   Object.keys(cols).forEach(k => {
     cols[k].sort((a,b) => (prioOrder[a.prioridad]||2) - (prioOrder[b.prioridad]||2));
   });
 
-  // Render columnas
   ['pendiente','proceso','listo'].forEach(estado => {
     const el = document.getElementById('col-' + estado);
-    if (cols[estado].length === 0) {
-      el.innerHTML = '<div class="empty-col">Sin tareas</div>';
-    } else {
-      el.innerHTML = cols[estado].map(t => renderCard(t.id, t)).join('');
-    }
+    el.innerHTML = cols[estado].length === 0
+      ? '<div class="empty-col">Sin tareas</div>'
+      : cols[estado].map(t => renderCard(t.id, t)).join('');
   });
 
-  // Stats
-  const np = cols.pendiente.length;
-  const nr = cols.proceso.length;
-  const nl = cols.listo.length;
-  const tot = np + nr + nl;
-
+  const np = cols.pendiente.length, nr = cols.proceso.length, nl = cols.listo.length;
   document.getElementById('cnt-pend').textContent = np;
   document.getElementById('cnt-proc').textContent = nr;
   document.getElementById('cnt-list').textContent = nl;
-  document.getElementById('cnt-tot').textContent  = tot;
+  document.getElementById('cnt-tot').textContent  = np+nr+nl;
   document.getElementById('lbl-pend').textContent = np;
   document.getElementById('lbl-proc').textContent = nr;
   document.getElementById('lbl-list').textContent = nl;
